@@ -1,17 +1,28 @@
-function fibonacci(n) {
-  // handle small cases
-  if (n === 0) return [];
-  if (n === 1) return [0];
+const express = require("express");
+const app = express();
 
-  let series = [0, 1];
+app.use(express.json());
 
-  for (let i = 2; i < n; i++) {
-    series[i] = series[i - 1] + series[i - 2];
+// POST /fibnocci
+app.post("/fibnocci", (req, res) => {
+  const { n } = req.body;
+
+  if (!Number.isInteger(n) || n < 0) {
+    return res.status(400).json({ message: "n must be a non-negative integer" });
   }
 
-  return series.slice(0, n);
-}
+  // compute nth Fibonacci number
+  let a = 0, b = 1;
+  if (n === 0) return res.json({ message: 0 });
+  if (n === 1) return res.json({ message: 1 });
 
-console.log(fibonacci(2)); // [0, 1]
+  for (let i = 2; i <= n; i++) {
+    [a, b] = [b, a + b];
+  }
 
-module.exports = fibonacci;
+  res.json({ message: b });
+});
+
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
+});
