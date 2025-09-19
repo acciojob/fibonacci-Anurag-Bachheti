@@ -1,17 +1,19 @@
 function fibonacci(n) {
-  // handle small cases
-  if (n === 0) return [];
-  if (n === 1) return [0];
-
-  let series = [0, 1];
-
-  for (let i = 2; i < n; i++) {
-    series[i] = series[i - 1] + series[i - 2];
+  if(n<=1){
+	  return 0;
   }
 
-  return series.slice(0, n);
+	let a = 0, b = 1;
+
+	if(n === 1)return a;
+	if(n === 2)return b;
+
+	for(let i=3; i<n; i++){
+		[a,b] = [b, a+b]
+	}
+	return b
 }
 
-console.log(fibonacci(2)); // [0, 1]
+console.log(fibonacci(2));
 
 module.exports = fibonacci;
